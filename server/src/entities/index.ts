@@ -6,6 +6,7 @@ import { AssetJobStatusEntity } from 'src/entities/asset-job-status.entity';
 import { AssetStackEntity } from 'src/entities/asset-stack.entity';
 import { AssetEntity } from 'src/entities/asset.entity';
 import { AuditEntity } from 'src/entities/audit.entity';
+import { AuthorizationEntity } from 'src/entities/authorization.entity';
 import { ExifEntity } from 'src/entities/exif.entity';
 import { GeodataPlacesEntity } from 'src/entities/geodata-places.entity';
 import { LibraryEntity } from 'src/entities/library.entity';
@@ -31,6 +32,7 @@ export const entities = [
   AssetFaceEntity,
   AssetJobStatusEntity,
   AuditEntity,
+  AuthorizationEntity,
   ExifEntity,
   GeodataPlacesEntity,
   MemoryEntity,

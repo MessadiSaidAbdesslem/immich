@@ -13,7 +13,13 @@ export class UserTokenRepository implements IUserTokenRepository {
 
   @GenerateSql({ params: [DummyValue.STRING] })
   getByToken(token: string): Promise<UserTokenEntity | null> {
-    return this.repository.findOne({ where: { token }, relations: { user: true } });
+    return this.repository.findOne({
+      where: { token },
+      relations: {
+        permissions: true,
+        user: true,
+      },
+    });
   }
 
   getAll(userId: string): Promise<UserTokenEntity[]> {
@@ -23,6 +29,7 @@ export class UserTokenRepository implements IUserTokenRepository {
       },
       relations: {
         user: true,
+        permissions: true,
       },
       order: {
         updatedAt: 'desc',

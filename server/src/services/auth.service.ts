@@ -385,7 +385,7 @@ export class AuthService {
     if (sharedLink && (!sharedLink.expiresAt || new Date(sharedLink.expiresAt) > new Date())) {
       const user = sharedLink.user;
       if (user) {
-        return { user, sharedLink };
+        return { user, sharedLink, permissions: sharedLink.permissions };
       }
     }
     throw new UnauthorizedException('Invalid share key');
@@ -394,8 +394,8 @@ export class AuthService {
   private async validateApiKey(key: string): Promise<AuthDto> {
     const hashedKey = this.cryptoRepository.hashSha256(key);
     const apiKey = await this.keyRepository.getKey(hashedKey);
-    if (apiKey?.user) {
-      return { user: apiKey.user, apiKey };
+    if (apiKey?.user && apiKey?.permissions) {
+      return { user: apiKey.user, permissions: apiKey.permissions, apiKey };
     }
 
     throw new UnauthorizedException('Invalid API key');
@@ -420,7 +420,7 @@ export class AuthService {
         userToken = await this.userTokenRepository.save({ ...userToken, updatedAt: new Date() });
       }
 
-      return { user: userToken.user, userToken };
+      return { user: userToken.user, userToken, permissions: userToken.permissions };
     }
 
     throw new UnauthorizedException('Invalid user token');
@@ -430,9 +430,11 @@ export class AuthService {
     const key = this.cryptoRepository.newPassword(32);
     const token = this.cryptoRepository.hashSha256(key);
 
+    const permission = await this.permissionsRepository.create(dto.permissions);
     await this.userTokenRepository.create({
       token,
       user,
+      permission,
       deviceOS: loginDetails.deviceOS,
       deviceType: loginDetails.deviceType,
     });

@@ -1,5 +1,15 @@
+import { AuthorizationEntity } from 'src/entities/authorization.entity';
 import { UserEntity } from 'src/entities/user.entity';
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity('user_token')
 export class UserTokenEntity {
@@ -26,4 +36,8 @@ export class UserTokenEntity {
 
   @Column({ default: '' })
   deviceOS!: string;
+
+  @OneToOne(() => AuthorizationEntity, { cascade: true, onDelete: 'CASCADE' })
+  @JoinColumn()
+  permissions!: AuthorizationEntity;
 }

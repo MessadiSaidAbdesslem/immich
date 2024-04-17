@@ -2,12 +2,14 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
 import { APIKeyEntity } from 'src/entities/api-key.entity';
+import { AuthorizationEntity } from 'src/entities/authorization.entity';
 import { SharedLinkEntity } from 'src/entities/shared-link.entity';
 import { UserTokenEntity } from 'src/entities/user-token.entity';
 import { UserEntity } from 'src/entities/user.entity';
 
 export class AuthDto {
   user!: UserEntity;
+  permissions!: AuthorizationEntity;
 
   apiKey?: APIKeyEntity;
   sharedLink?: SharedLinkEntity;

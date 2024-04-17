@@ -1,13 +1,16 @@
 import { AlbumEntity } from 'src/entities/album.entity';
 import { AssetEntity } from 'src/entities/asset.entity';
+import { AuthorizationEntity } from 'src/entities/authorization.entity';
 import { UserEntity } from 'src/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   Index,
+  JoinColumn,
   ManyToMany,
   ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
   Unique,
 } from 'typeorm';
@@ -61,6 +64,10 @@ export class SharedLinkEntity {
 
   @Column({ type: 'varchar', nullable: true })
   albumId!: string | null;
+
+  @OneToOne(() => AuthorizationEntity, { cascade: true, onDelete: 'CASCADE' })
+  @JoinColumn()
+  permissions!: AuthorizationEntity;
 }
 
 export enum SharedLinkType {

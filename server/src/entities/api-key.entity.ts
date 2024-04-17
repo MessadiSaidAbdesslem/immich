@@ -1,5 +1,15 @@
+import { AuthorizationEntity } from 'src/entities/authorization.entity';
 import { UserEntity } from 'src/entities/user.entity';
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity('api_keys')
 export class APIKeyEntity {
@@ -23,4 +33,8 @@ export class APIKeyEntity {
 
   @UpdateDateColumn({ type: 'timestamptz' })
   updatedAt!: Date;
+
+  @OneToOne(() => AuthorizationEntity, { cascade: true, onDelete: 'CASCADE' })
+  @JoinColumn()
+  permissions!: AuthorizationEntity;
 }
